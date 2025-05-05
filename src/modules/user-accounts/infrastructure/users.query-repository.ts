@@ -16,7 +16,6 @@ export class UsersQueryRepository {
       _id: id,
       deletedAt: null,
     });
-    ыыыыы;
     if (!user) {
       throw new NotFoundException('user not found');
     }
