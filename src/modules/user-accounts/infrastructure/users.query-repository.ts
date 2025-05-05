@@ -4,6 +4,7 @@ import { UserViewDto } from '../api/view-dto/users.view-dto';
 import { NotFoundException } from '@nestjs/common';
 import { GetUsersQueryParams } from '../api/input-dto/get-users-query-params.input.dto';
 import { PaginatedViewDto } from '../../../core/dto/base.paginated.view-dto';
+import { SortDirection } from '../../../core/dto/base.query-params.input-dto';
 
 export class UsersQueryRepository {
   constructor(
@@ -23,12 +24,44 @@ export class UsersQueryRepository {
     return UserViewDto.mapToView(user);
   }
 
-  //TODO: add pagination and filters
   async getAll(
     query: GetUsersQueryParams,
   ): Promise<PaginatedViewDto<UserViewDto[]>> {
-    const result = await this.UserModel.find().exec();
+    const {
+      pageNumber,
+      pageSize,
+      sortBy,
+      sortDirection,
+      searchLoginTerm,
+      searchEmailTerm,
+    } = query;
+    const filter: any = { $or: [] };
+    if (searchEmailTerm) {
+      filter.$or.push({ email: { $regex: searchEmailTerm, $options: 'i' } });
+    }
+    if (searchLoginTerm) {
+      filter.$or.push({ login: { $regex: searchLoginTerm, $options: 'i' } });
+    }
 
-    return result.map((user) => UserViewDto.mapToView(user));
+    const result = await this.UserModel.find(filter.$or.length ? filter : {}, {
+      projection: { passwordHash: 0 },
+    })
+      .sort({ [sortBy]: sortDirection === SortDirection.Asc ? 1 : -1 })
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageSize)
+      .lean();
+
+    const userCounts = await this.UserModel.countDocuments(
+      filter.$or.length ? filter : {},
+    );
+
+    const items: UserViewDto[] = result.map(UserViewDto.mapToView);
+
+    return PaginatedViewDto.mapToView({
+      items,
+      page: pageNumber,
+      size: pageSize,
+      totalCount: userCounts,
+    });
   }
 }

@@ -1,5 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Model } from 'mongoose';
+import { Name, NameSchema } from './name.schema';
+import {
+  CreateUserDomainDto,
+  UpdateUserDto,
+} from './dto/create-user.update.dto';
 
 /**
  * //флаг timestemp автоматичеки добавляет поля upatedAt и createdAt
