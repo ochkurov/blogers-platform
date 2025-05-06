@@ -23,7 +23,7 @@ export class UsersQueryRepository {
 
     return UserViewDto.mapToView(user);
   }
-лдолдл
+
   async getAll(
     query: GetUsersQueryParams,
   ): Promise<PaginatedViewDto<UserViewDto[]>> {
