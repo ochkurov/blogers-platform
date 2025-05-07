@@ -1,4 +1,6 @@
 import { Controller, Delete, HttpCode, HttpStatus } from '@nestjs/common';
+import { InjectConnection } from '@nestjs/mongoose';
+import { Connection } from 'mongoose';
 
 @Controller('testing')
 export class TestingController {
