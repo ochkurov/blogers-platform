@@ -60,7 +60,7 @@ export class Post {
   }
 }
 
-const PostSchema = SchemaFactory.createForClass(Post);
+export const PostSchema = SchemaFactory.createForClass(Post);
 
 PostSchema.loadClass(Post);
 
