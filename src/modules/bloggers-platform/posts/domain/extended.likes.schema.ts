@@ -16,7 +16,7 @@ export class ExtendedLikes {
   @Prop({type: String , enum: LikeStatusEnum , default: LikeStatusEnum.None})
   myStatus: LikeStatusEnum;
   @Prop({type: [NewestLikesSchema]})
-  newestLikes:Array<NewestLikes>;
+  newestLikes:Array<NewestLikes> ;
 }
 
 export const ExtendedLikesInfoSchema = SchemaFactory.createForClass(ExtendedLikes)
