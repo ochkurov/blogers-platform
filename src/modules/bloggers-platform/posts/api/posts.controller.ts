@@ -6,14 +6,12 @@ import { PostsQueryRepository } from '../infrastructure/posts.query-repository';
 
 @Controller('posts')
 export class PostsController {
-  constructor(
-    private postsQwRepository:PostsQueryRepository
-  ) {
-  }
+  constructor(private postsQwRepository: PostsQueryRepository) {}
+
   @Get()
   getAll(
-    @Query() query:GetPostsQueryParams
+    @Query() query: GetPostsQueryParams,
   ): Promise<PaginatedViewDto<PostViewDto[]>> {
-return this.postsQwRepository
+    return this.postsQwRepository.getAll(query);
   }
 }
