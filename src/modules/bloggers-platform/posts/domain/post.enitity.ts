@@ -6,7 +6,7 @@ import {
 } from './extended.likes.schema';
 import { CreatePostDto } from './dto/create-post.dto';
 import { HydratedDocument, Model } from 'mongoose';
-import { UpdatePostDto } from '../api/input-dto/post.update-dto';
+import { CreateAndUpdatePostDto, UpdatePostDto } from '../api/input-dto/post.create-update-dto';
 
 @Schema({ timestamps: true })
 export class Post {
@@ -37,13 +37,13 @@ export class Post {
   @Prop({ type: ExtendedLikesInfoSchema })
   extendedLikesInfo: ExtendedLikes;
 
-  static createInstanse(dto: CreatePostDto): PostDocument {
+  static createInstanse(dto: CreateAndUpdatePostDto , blogName: string): PostDocument {
     const post = new this();
     post.title = dto.title;
     post.shortDescription = dto.shortDescription;
     post.content = dto.content;
     post.blogId = dto.blogId;
-    post.blogName = dto.blogName;
+    post.blogName = blogName;
     post.extendedLikesInfo.likesCount = 0;
     post.extendedLikesInfo.dislikesCount = 0;
     post.extendedLikesInfo.myStatus = LikeStatusEnum.None;

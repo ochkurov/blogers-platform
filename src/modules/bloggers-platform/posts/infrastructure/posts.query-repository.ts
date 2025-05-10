@@ -5,6 +5,8 @@ import { PaginatedViewDto } from '../../../../core/dto/base.paginated.view-dto';
 import { PostViewDto } from '../api/view-dto/post-view-dto';
 import { SortDirection } from '../../../../core/dto/base.query-params.input-dto';
 import { filter } from 'rxjs';
+import mongoose from 'mongoose';
+import { NotFoundException } from '@nestjs/common';
 
 export class PostsQueryRepository {
   constructor(
@@ -31,6 +33,10 @@ export class PostsQueryRepository {
     });
   }
   async getPostById (id: string) : Promise<PostViewDto> {
-    return
+    const post = await this.PostModel.findOne({_id: new mongoose.Types.ObjectId(id)})
+    if (!post) {
+      throw new NotFoundException('post not found');
+    }
+    return PostViewDto.mapToView(post)
   }
 }
