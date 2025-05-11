@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
 import { GetPostsQueryParams } from './input-dto/get-posts-query-paramas.input.dto';
 import { PaginatedViewDto } from '../../../../core/dto/base.paginated.view-dto';
 import { PostViewDto } from './view-dto/post-view-dto';
@@ -30,4 +30,7 @@ export class PostsController {
     const postId: string = await this.postsService.createPost(dto);
     return this.postsQwRepository.getPostById(postId);
   }
+  @Put(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async updatePost(@Param('id') id:string, @Body() dto: CreateAndUpdatePostDto): Promise<PostViewDto> {}
 }
