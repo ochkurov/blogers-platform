@@ -19,13 +19,19 @@ import { BlogsService } from '../application/blogs.service';
 import { PostViewDto } from '../../posts/api/view-dto/post-view-dto';
 import { GetPostsQueryParams } from '../../posts/api/input-dto/get-posts-query-paramas.input.dto';
 import { PostsQueryRepository } from '../../posts/infrastructure/posts.query-repository';
+import {
+  CreateAndUpdatePostDto,
+  CreatePostByBlogIdDto,
+} from '../../posts/api/input-dto/post.create-update-dto';
+import { PostsService } from '../../posts/application/posts.service';
 
 @Controller('blogs')
 export class BlogsController {
   constructor(
     private blogsQueryRepository: BlogsQueryRepository,
     private blogService: BlogsService,
-    private postsQwRepository: PostsQueryRepository
+    private postsQwRepository: PostsQueryRepository,
+    private postsService: PostsService,
   ) {}
 
   @Get()
@@ -45,13 +51,23 @@ export class BlogsController {
     @Param('blogId') blogId: string,
     @Query() query: GetPostsQueryParams,
   ): Promise<PaginatedViewDto<PostViewDto[]>> {
-    return this.postsQwRepository.getAll(query , blogId);
+    return this.postsQwRepository.getAll(query, blogId);
   }
 
   @Post()
   async createBlog(@Body() body: CreateBlogInputDto): Promise<BlogViewDto> {
     const blogId = await this.blogService.createBlog(body);
     return await this.blogsQueryRepository.getById(blogId);
+  }
+
+  @Post(':blogId/posts')
+  async createPostByBlogId(
+    @Param('blogId') blogId: string,
+    @Body() body: CreatePostByBlogIdDto,
+  ): Promise<PostViewDto> {
+    const dto: CreateAndUpdatePostDto = { ...body, blogId };
+    const postId: string = await this.postsService.createPost(dto);
+    return this.postsQwRepository.getPostById(postId);
   }
 
   @Put(':id')
