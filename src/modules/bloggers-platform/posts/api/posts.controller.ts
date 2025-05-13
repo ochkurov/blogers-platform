@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
 import { GetPostsQueryParams } from './input-dto/get-posts-query-paramas.input.dto';
 import { PaginatedViewDto } from '../../../../core/dto/base.paginated.view-dto';
 import { PostViewDto } from './view-dto/post-view-dto';
@@ -34,5 +34,11 @@ export class PostsController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async updatePost(@Param('id') id:string, @Body() dto: CreateAndUpdatePostDto) {
     return await this.postsService.updatePost(id, dto);
+  }
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deletePost(@Param('id') id:string) {
+    return this.postsService.deletePost(id)
+
   }
 }

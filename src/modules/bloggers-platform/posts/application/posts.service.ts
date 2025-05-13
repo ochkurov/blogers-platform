@@ -25,4 +25,8 @@ export class PostsService {
     post.updatePost(dto)
     await this.postsRepository.save(post)
   }
+  async deletePost (id: string) {
+    const post = await this.postsQueryRepository.getPostDocument(id)
+    return await this.postsRepository.deletePost(id)
+  }
 }
