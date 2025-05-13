@@ -15,10 +15,11 @@ export class PostsQueryRepository {
   ) {}
 
   async getAll(
-    query: GetPostsQueryParams,
+    query: GetPostsQueryParams,blogId?: string,
   ): Promise<PaginatedViewDto<PostViewDto[]>> {
     const { pageNumber, pageSize, sortBy, sortDirection } = query;
-    const result = await this.PostModel.find({})
+    const filter = blogId ? {blogId} : {}
+    const result = await this.PostModel.find(filter)
       .sort({ [sortBy]: sortDirection === SortDirection.Asc ? 1 : -1 })
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize)
