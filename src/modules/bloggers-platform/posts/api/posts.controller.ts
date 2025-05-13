@@ -32,7 +32,7 @@ export class PostsController {
   }
   @Put(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async updatePost(@Param('id') id:string, @Body() dto: CreateAndUpdatePostDto): Promise<PostViewDto> {
-    return
+  async updatePost(@Param('id') id:string, @Body() dto: CreateAndUpdatePostDto) {
+    return await this.postsService.updatePost(id, dto);
   }
 }

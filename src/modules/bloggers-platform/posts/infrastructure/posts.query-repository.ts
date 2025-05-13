@@ -1,5 +1,5 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { Post, PostModelType } from '../domain/post.enitity';
+import { Post, PostDocument, PostModelType } from '../domain/post.enitity';
 import { GetPostsQueryParams } from '../api/input-dto/get-posts-query-paramas.input.dto';
 import { PaginatedViewDto } from '../../../../core/dto/base.paginated.view-dto';
 import { PostViewDto } from '../api/view-dto/post-view-dto';
@@ -38,5 +38,12 @@ export class PostsQueryRepository {
       throw new NotFoundException('post not found');
     }
     return PostViewDto.mapToView(post)
+  }
+  async getPostDocument (id: string) : Promise<PostDocument> {
+    const post = await this.PostModel.findOne({_id: new mongoose.Types.ObjectId(id)})
+    if (!post) {
+      throw new NotFoundException('post not found');
+    }
+    return post as PostDocument;
   }
 }

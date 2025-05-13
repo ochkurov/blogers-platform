@@ -6,7 +6,7 @@ import {
 } from './extended.likes.schema';
 import { CreatePostDto } from './dto/create-post.dto';
 import { HydratedDocument, Model } from 'mongoose';
-import { CreateAndUpdatePostDto, UpdatePostDto } from '../api/input-dto/post.create-update-dto';
+import { CreateAndUpdatePostDto } from '../api/input-dto/post.create-update-dto';
 
 @Schema({ timestamps: true })
 export class Post {
@@ -52,7 +52,7 @@ export class Post {
     return post as PostDocument;
   }
 
-  updatePost(dto: UpdatePostDto) {
+  updatePost(dto: CreateAndUpdatePostDto) {
     this.title = dto.title;
     this.shortDescription = dto.shortDescription;
     this.content = dto.content;
