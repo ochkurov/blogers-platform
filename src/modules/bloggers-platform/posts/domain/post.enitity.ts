@@ -39,6 +39,8 @@ export class Post {
 
   static createInstanse(dto: CreateAndUpdatePostDto , blogName: string): PostDocument {
     const post = new this();
+    const likesInfo = new ExtendedLikes()
+    post.extendedLikesInfo = likesInfo;
     post.title = dto.title;
     post.shortDescription = dto.shortDescription;
     post.content = dto.content;

@@ -51,6 +51,7 @@ export class BlogsController {
     @Param('blogId') blogId: string,
     @Query() query: GetPostsQueryParams,
   ): Promise<PaginatedViewDto<PostViewDto[]>> {
+    await this.blogsQueryRepository.getById(blogId);
     return this.postsQwRepository.getAll(query, blogId);
   }
 

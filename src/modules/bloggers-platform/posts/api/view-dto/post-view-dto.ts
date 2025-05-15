@@ -9,9 +9,9 @@ export class PostViewDto {
   blogId: string
   blogName: string
   createdAt: Date
-  extendedLikesInfo:ExtendedLikesDto
+  extendedLikesInfo:ExtendedLikesDto = {} as ExtendedLikesDto
   static mapToView(post: PostDocument ): PostViewDto {
-    const dto = new this();
+    const dto = new PostViewDto();
     dto.id = post._id.toString();
     dto.title = post.title;
     dto.shortDescription = post.shortDescription;

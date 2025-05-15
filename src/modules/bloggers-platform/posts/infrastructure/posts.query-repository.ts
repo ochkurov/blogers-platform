@@ -24,7 +24,7 @@ export class PostsQueryRepository {
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize)
       .lean();
-    const postsCount = await this.PostModel.countDocuments({});
+    const postsCount = await this.PostModel.countDocuments(filter);
     const posts: PostViewDto[] = result.map(PostViewDto.mapToView);
    return PaginatedViewDto.mapToView({
       items: posts,
