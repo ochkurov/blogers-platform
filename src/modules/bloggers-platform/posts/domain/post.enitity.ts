@@ -4,7 +4,6 @@ import {
   ExtendedLikesInfoSchema,
   LikeStatusEnum,
 } from './extended.likes.schema';
-import { CreatePostDto } from './dto/create-post.dto';
 import { HydratedDocument, Model } from 'mongoose';
 import { CreateAndUpdatePostDto } from '../api/input-dto/post.create-update-dto';
 

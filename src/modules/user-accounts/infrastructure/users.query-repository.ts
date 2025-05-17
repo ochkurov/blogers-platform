@@ -35,15 +35,16 @@ export class UsersQueryRepository {
       searchLoginTerm,
       searchEmailTerm,
     } = query;
-    const filter: any = { $or: [] };
+    const filter: any = { deletedAt: null ,  $or: [] };
     if (searchEmailTerm) {
       filter.$or.push({ email: { $regex: searchEmailTerm, $options: 'i' } });
     }
     if (searchLoginTerm) {
       filter.$or.push({ login: { $regex: searchLoginTerm, $options: 'i' } });
     }
+    l
 
-    const result = await this.UserModel.find(filter.$or.length ? filter : {}, {
+    const result = await this.UserModel.find(filter , {
       projection: { passwordHash: 0 },
     })
       .sort({ [sortBy]: sortDirection === SortDirection.Asc ? 1 : -1 })

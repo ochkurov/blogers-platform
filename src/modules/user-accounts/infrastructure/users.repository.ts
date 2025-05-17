@@ -21,7 +21,7 @@ export class UsersRepository {
   async findOrNotFoundFail(id: string): Promise<UserDocument> {
     const user = await this.findById(id);
 
-    if (!user) {
+    if (!user || user.deletedAt ) {
       //TODO: replace with domain exception
       throw new NotFoundException('user not found');
     }
