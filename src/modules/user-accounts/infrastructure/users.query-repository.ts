@@ -42,7 +42,7 @@ export class UsersQueryRepository {
     if (searchLoginTerm) {
       filter.$or.push({ login: { $regex: searchLoginTerm, $options: 'i' } });
     }
-
+d
 
     const result = await this.UserModel.find(filter , {
       projection: { passwordHash: 0 },
