@@ -9,4 +9,4 @@ export const configModule = ConfigModule.forRoot({
     `.env.production`,
   ],
   isGlobal: true,
-})sss
+})
