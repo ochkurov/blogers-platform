@@ -1,5 +1,5 @@
 import { ConfigModule } from '@nestjs/config'
-import * as process from 'node:process';
+
 
 export const configModule = ConfigModule.forRoot({
   envFilePath: [
