@@ -9,12 +9,22 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     const status = exception.getStatus();
 
-    response
-      .status(status)
-      .json({
-        statusCode: status,
-        timestamp: new Date().toISOString(),
-        path: request.url,
-      });
+    if (status === 400) {
+      const errorResponse = {
+        errors: []
+      };
+      const res:any  = exception.getResponse()
+      res.message.forEach(m => errorResponse.errors.push(m));
+      response.status(status).json(errorResponse);
+    }else {
+      response
+        .status(status)
+        .json({
+          statusCode: status,
+          timestamp: new Date().toISOString(),
+          path: request.url,
+        });
+    }
+
   }
 }
