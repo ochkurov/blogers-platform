@@ -13,14 +13,17 @@ export function pipesSetup(app: INestApplication) {
       exceptionFactory: (errors) => {
         const errorForResponse: any = [];
 
+
         errors.forEach((error) => {
-          const constraintsKeys = Object.keys(error.constraints);
-          constraintsKeys.forEach((ckey) => {
-            errorForResponse.push({
-              message: error.constraints[ckey],
-              field: error.property,
+          if(error.constraints) {
+            const constraintsKeys = Object.keys(error.constraints);
+            constraintsKeys.forEach((ckey) => {
+              errorForResponse.push({
+                message: error.constraints![ckey],
+                field: error.property,
+              });
             });
-          });
+          }
         });
         throw new BadRequestException(errorForResponse);
       },
