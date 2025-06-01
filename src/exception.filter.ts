@@ -10,13 +10,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus();
 
     if (status === 400) {
-      const errorResponse = {
+      const errorResponse:any = {
         errors: []
       };
+
       const responseBody: any  = exception.getResponse();
 
       responseBody.message.forEach((m) =>
-        errorResponse.errors.push({message:m , field: 'x'}));
+        errorResponse.errors.push({message:m.message , field: m.field}));
 
       response.status(status).json(errorResponse);
     }else {
