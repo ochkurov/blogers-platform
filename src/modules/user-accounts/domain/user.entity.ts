@@ -2,8 +2,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Model } from 'mongoose';
 import { Name, NameSchema } from './name.schema';
 import {
-  CreateUserDomainDto,
-  UpdateUserDto,
+    CreateUserDomainDto,
+    UpdateUserDto,
 } from './dto/create-user.update.dto';
 
 /**
@@ -19,7 +19,7 @@ export class User {
    * @required
    */
   @Prop({ type: String, required: true })
-  login: string;
+      login: string;
 
   /**
    * Password hash for authentication
@@ -27,7 +27,7 @@ export class User {
    * @required
    */
   @Prop({ type: String, required: true })
-  passwordHash: string;
+      passwordHash: string;
 
   /**
    * Email of the user
@@ -35,7 +35,7 @@ export class User {
    * @required
    */
   @Prop({ type: String, required: true })
-  email: string;
+      email: string;
 
   /**
    * Email confirmation status (if not confirmed in 2 days account will be deleted)
@@ -43,11 +43,11 @@ export class User {
    * @default false
    */
   @Prop({ type: Boolean, required: true, default: false })
-  isEmailConfirmed: boolean;
+      isEmailConfirmed: boolean;
 
   // @Prop(NameSchema) this variant from doc. doesn't make validation for inner object
   @Prop({ type: NameSchema })
-  name: Name;
+      name: Name;
 
   /**
    * Creation timestamp
@@ -63,21 +63,21 @@ export class User {
    * @type {Date | null}
    */
   @Prop({ type: Date, nullable: true, default: null })
-  deletedAt: Date | null;
+      deletedAt: Date | null;
 
   static createInstance(dto: CreateUserDomainDto): UserDocument {
-    const user = new this();
-    user.email = dto.email;
-    user.passwordHash = dto.passwordHash;
-    user.login = dto.login;
-    user.isEmailConfirmed = false; // пользователь ВСЕГДА должен после регистрации подтверждить свой Email
+      const user = new this();
+      user.email = dto.email;
+      user.passwordHash = dto.passwordHash;
+      user.login = dto.login;
+      user.isEmailConfirmed = false; // пользователь ВСЕГДА должен после регистрации подтверждить свой Email
+    
+      user.name = {
+          firstName: 'firstName xxx',
+          lastName: 'lastName yyy',
+      };
 
-    user.name = {
-      firstName: 'firstName xxx',
-      lastName: 'lastName yyy',
-    };
-
-    return user as UserDocument;
+      return user as UserDocument;
   }
 
   /**
@@ -87,10 +87,10 @@ export class User {
    * DDD continue: инкапсуляция (вызываем методы, которые меняют состояние\св-ва) объектов согласно правилам этого объекта
    */
   makeDeleted() {
-    if (this.deletedAt !== null) {
-      throw new Error('Entity already deleted');
-    }
-    this.deletedAt = new Date();
+      if (this.deletedAt !== null) {
+          throw new Error('Entity already deleted');
+      }
+      this.deletedAt = new Date();
   }
 
   /**
@@ -100,10 +100,10 @@ export class User {
    * DDD continue: инкапсуляция (вызываем методы, которые меняют состояние\св-ва) объектов согласно правилам этого объекта
    */
   update(dto: UpdateUserDto) {
-    if (dto.email !== this.email) {
-      this.isEmailConfirmed = false;
-    }
-    this.email = dto.email;
+      if (dto.email !== this.email) {
+          this.isEmailConfirmed = false;
+      }
+      this.email = dto.email;
   }
 }
 
