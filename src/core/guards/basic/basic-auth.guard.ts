@@ -2,6 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 import { BasicStrategy } from './basic.strategy';
+import { IS_PUBLIC_KEY } from '../../decorators/public.decorator';
 
 
 @Injectable()
