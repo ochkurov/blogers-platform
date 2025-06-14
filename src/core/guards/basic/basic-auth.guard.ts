@@ -3,6 +3,9 @@ import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 import { BasicStrategy } from './basic.strategy';
 import { IS_PUBLIC_KEY } from '../../decorators/public.decorator';
+import { parseBasicAuth } from '../../utils/basic-auth.utility';
+import { DomainExceptionCode } from '../../exceptions/domain-exceptions.codes';
+import { DomainException } from '../../exceptions/domain-exceptions';
 
 
 @Injectable()
@@ -42,3 +45,4 @@ export class BasicAuthGuard implements CanActivate {
         }
     }
 }
+let
